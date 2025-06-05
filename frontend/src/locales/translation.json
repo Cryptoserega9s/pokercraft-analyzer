@@ -1,0 +1,35 @@
+{
+  "dashboard": {
+    "title": "Анализ турниров PokerCraft",
+    "filters": {
+      "buyin": "Фильтр по бай-ину",
+      "place": "Место",
+      "date": "Дата",
+      "dayOfWeek": "День недели"
+    },
+    "stats": {
+      "totalTournaments": "Всего турниров",
+      "totalBuyins": "Общий бай-ин",
+      "totalCommission": "Комиссия",
+      "totalBounties": "Награды за выбивание",
+      "roi": "ROI",
+      "rakeback": "Рейкбек"
+    },
+    "charts": {
+      "balance": "Баланс",
+      "profit": "Чистая прибыль",
+      "bounties": "Топ-награды"
+    },
+    "upload": {
+      "button": "Загрузить файл",
+      "status": {
+        "success": "Файл успешно загружен!",
+        "error": "Ошибка загрузки файла"
+      }
+    },
+    "language": {
+      "ru": "Русский",
+      "en": "English"
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "dashboard": {
+    "title": "Анализ турниров PokerCraft",
+    "logout": "Выйти",
+    "viewToggle": {
+      "charts": "Графики",
+      "table": "Таблица"
+    },
+    "filters": {
+      "title": "Фильтры",
+      "buyin": "Бай-ин",
+      "buyinPlaceholder": "Сумма бай-ина",
+      "place": "Место",
+      "placePlaceholder": "Занятое место",
+      "startDate": "От даты",
+      "endDate": "До даты",
+      "dayOfWeek": "День недели",
+      "allDays": "Все дни",
+      "monday": "Понедельник",
+      "tuesday": "Вторник",
+      "wednesday": "Среда",
+      "thursday": "Четверг",
+      "friday": "Пятница",
+      "saturday": "Суббота",
+      "sunday": "Воскресенье",
+      "includeRakeback": "Учитывать рейкбек",
+      "apply": "Применить",
+      "reset": "Сбросить"
+    },
+    "stats": {
+      "title": "Статистика",
+      "showing": "Показано",
+      "of": "из",
+      "tournaments": "турниров",
+      "noData": "Нет данных для отображения",
+      "totalTournaments": "Всего турниров",
+      "totalBuyins": "Общая сумма бай-инов",
+      "totalCommission": "Общая комиссия",
+      "totalBounties": "Общая сумма наград",
+      "topBounties": "Топ наград",
+      "totalPrizes": "Общая сумма призов",
+      "finalResult": "Итоговый результат",
+      "roi": "ROI",
+      "emptyKnockouts": "Пустые нокауты",
+      "avgKnockoutPrice": "Средняя цена нокаута",
+      "totalKnockouts": "Всего нокаутов",
+      "totalRakeback": "Всего рейкбек",
+      "rakebackPercentage": "Процент рейкбека"
+    },
+    "upload": {
+      "title": "Загрузка истории",
+      "selectFile": "Выбрать HTML файл",
+      "submit": "Загрузить",
+      "uploading": "Загрузка...",
+      "success": "Файл успешно загружен!",
+      "error": "Ошибка загрузки файла",
+      "htmlRequired": "Необходим HTML файл",
+      "stats": {
+        "total": "Всего обработано",
+        "imported": "Импортировано новых турниров",
+        "skipped": "Пропущено (уже существуют)",
+        "errors": "Ошибки при импорте"
+      },
+      "details": {
+        "title": "Детали загрузки",
+        "fileInfo": "Информация о файле",
+        "fileName": "Имя файла",
+        "fileSize": "Размер файла",
+        "parsing": "Парсинг",
+        "totalRows": "Всего строк",
+        "parsedRows": "Успешно обработано",
+        "skippedRows": "Пропущено строк",
+        "parsingErrors": "Ошибки парсинга",
+        "import": "Импорт",
+        "totalTournaments": "Всего турниров",
+        "importedTournaments": "Импортировано",
+        "skippedTournaments": "Пропущено",
+        "importErrors": "Ошибки",
+        "successRate": "Успешность",
+        "debugInfo": "Отладочная информация",
+        "showDebug": "Показать отладочную информацию",
+        "hideDebug": "Скрыть отладочную информацию"
+      }
+    },
+    "charts": {
+      "title": "Графики",
+      "balance": "Баланс",
+      "profit": "Чистая прибыль",
+      "bounties": "Награды за выбивание",
+      "tournamentNumber": "Номер турнира",
+      "tournament": "Турнир",
+      "dollars": "Сумма ($)",
+      "profitDollars": "Прибыль ($)",
+      "bountiesDollars": "Баунти ($)"
+    },
+    "table": {
+      "title": "Турниры",
+      "noData": "Нет данных для отображения",
+      "date": "Дата",
+      "buyin": "Бай-ин",
+      "place": "Место",
+      "kills": "Выбито",
+      "duration": "Длительность",
+      "prize": "Приз",
+      "bounty": "Награды",
+      "emptyKnockouts": "Пустые нокауты",
+      "bountiesWon": "Получено наград"
+    }
+  },
+  "landing": {
+    "title": "PokerCraft Analyzer",
+    "subtitle": "Анализируйте свои покерные турниры с легкостью",
+    "features": {
+      "title": "Возможности",
+      "stats": "Подробная статистика",
+      "charts": "Информативные графики",
+      "upload": "Загрузка истории турниров"
+    },
+    "login": {
+      "title": "Вход",
+      "email": "Email",
+      "password": "Пароль",
+      "submit": "Войти",
+      "error": "Ошибка входа"
+    },
+    "register": {
+      "title": "Регистрация",
+      "email": "Email",
+      "password": "Пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "submit": "Зарегистрироваться",
+      "error": "Ошибка регистрации",
+      "success": "Регистрация успешна",
+      "fieldsRequired": "Все поля обязательны",
+      "invalidEmail": "Некорректный формат email",
+      "passwordTooShort": "Пароль должен содержать минимум 6 символов",
+      "passwordMismatch": "Пароли не совпадают"
+    },
+    "howItWorks": {
+      "title": "Как это работает",
+      "step1": {
+        "title": "Регистрация",
+        "description": "Создайте аккаунт для сохранения и отслеживания ваших покерных данных"
+      },
+      "step2": {
+        "title": "Загрузка истории",
+        "description": "Загрузите файл history.html из вашего аккаунта PokerCraft"
+      },
+      "step3": {
+        "title": "Анализ данных",
+        "description": "Используйте фильтры и графики для анализа ваших результатов"
+      },
+      "step4": {
+        "title": "Улучшение стратегии",
+        "description": "Принимайте обоснованные решения на основе детального анализа ваших турниров"
+      }
+    },
+    "benefits": {
+      "title": "Преимущества",
+      "responsive": {
+        "title": "Адаптивный дизайн",
+        "description": "Удобное использование на любом устройстве: компьютере, планшете или смартфоне"
+      },
+      "secure": {
+        "title": "Безопасность данных",
+        "description": "Ваши данные надежно защищены с использованием современных технологий шифрования"
+      },
+      "multilingual": {
+        "title": "Мультиязычность",
+        "description": "Поддержка русского и английского языков с возможностью добавления новых языков"
+      },
+      "performance": {
+        "title": "Высокая производительность",
+        "description": "Быстрая загрузка и обработка даже больших объемов данных"
+      }
+    },
+    "footer": {
+      "copyright": "Все права защищены"
+    }
+  }
+}

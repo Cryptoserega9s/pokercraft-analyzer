@@ -1,0 +1,478 @@
+/* src/App.css */
+
+/* Переменные CSS */
+:root {
+  /* Цветовая схема (темная тема) */
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #f5f5f5;
+  --accent-color: #4C6EF5;
+  --border-color: #333;
+  --input-bg: #252525;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+}
+
+/* Общие стили для body и основного контейнера приложения */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Arial', sans-serif; /* Шрифт для .app */
+  background-color: var(--bg-color);
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box; /* Учитываем padding в общей ширине */
+}
+
+/* Общие стили компонентов */
+button {
+  cursor: pointer;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input, select, textarea {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Заголовок (Header) */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Кнопка выхода (Logout Button) */
+.logout-button {
+  background: transparent;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Общие стили для карточек */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Статистика */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  background-color: var(--input-bg); /* Использована переменная для фона */
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9em;
+  border: 1px solid var(--border-color);
+}
+
+.stat-item strong {
+  color: var(--accent-color);
+  display: block; /* Чтобы число было на отдельной строке */
+  font-size: 1.5em;
+  margin-top: 5px;
+}
+
+/* Фильтры */
+.filter-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.filter-group label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Увеличено расстояние между label и input/select */
+  font-size: 0.9em;
+}
+
+.filter-group select,
+.filter-group input[type="date"],
+.filter-group input[type="text"] { /* Добавлен тип text для поиска */
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1em;
+  appearance: none; /* Убирает стандартные стили для select */
+}
+
+/* Таблица турниров */
+.tournament-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.tournament-table th,
+.tournament-table td {
+  border: 1px solid var(--border-color);
+  padding: 12px; /* Увеличен padding для лучшего внешнего вида */
+  text-align: left; /* Выравнивание по левому краю */
+}
+
+.tournament-table th {
+  background-color: var(--input-bg); /* Использована переменная */
+  color: var(--text-color); /* Использована переменная */
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.tournament-table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.1); /* Чередующийся цвет строк */
+}
+
+.tournament-table .no-data {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Секция загрузки файла */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.upload-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.upload-controls input[type="file"] {
+  flex-grow: 1;
+}
+
+.upload-button {
+  background: var(--accent-color);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background: #0056b3;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: var(--input-bg); /* Использована переменная */
+  border-radius: 4px;
+  overflow: hidden;
+  height: 25px; /* Увеличена высота */
+  margin-top: 10px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--success-color); /* Использована переменная */
+  width: 0%;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* Статус загрузки */
+.upload-status {
+  margin-top: 10px;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.upload-status.success {
+  color: var(--success-color);
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.upload-status.error {
+  color: var(--error-color);
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Модальное окно авторизации */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Занимает всю высоту viewport */
+  background-color: var(--bg-color);
+}
+
+.auth-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.auth-tabs {
+  display: flex;
+  justify-content: space-around; /* Центрирование кнопок вкладок */
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.auth-tabs button {
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1em; /* Использован более гибкий размер шрифта */
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.auth-tabs button.active {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.auth-tabs button.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -11px; /* Позиционируем подчеркивание под кнопкой */
+  height: 2px;
+  background-color: var(--accent-color);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* Увеличено расстояние между элементами формы */
+}
+
+.auth-form input {
+  padding: 12px; /* Увеличен padding */
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-color);
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.auth-form button {
+  background: var(--accent-color);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background: #0056b3;
+}
+
+.forgot-password {
+  color: var(--accent-color);
+  text-align: right;
+  font-size: 0.9em;
+  margin-top: -8px; /* Уменьшен отступ */
+  text-decoration: none; /* Убираем подчеркивание по умолчанию */
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline; /* Появляется при наведении */
+}
+
+/* Сообщения об ошибках и успехе */
+.error-message {
+  color: var(--error-color);
+  margin-top: 10px;
+  padding: 8px;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-radius: 4px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.success-message {
+  color: var(--success-color);
+  margin-top: 10px;
+  padding: 8px;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 4px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Дашборд */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard h2 {
+  margin-top: 0;
+  color: var(--accent-color);
+  font-size: 1.8em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1px;
+  margin-bottom: 1px;
+}
+
+/* Футер */
+.app-footer {
+  text-align: center;
+  margin-top: 40px; /* Увеличен отступ */
+  font-size: 0.85em; /* Немного уменьшен размер шрифта */
+  color: #888;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr; /* Одна колонка на маленьких экранах */
+  }
+
+  .filter-group {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card {
+    padding: 20px;
+    margin: 0 15px; /* Добавляем отступы по бокам */
+  }
+}
+
+/* Анимация */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Утилиты */
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(30, 30, 30, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(76, 110, 245, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(76, 110, 245, 0.8);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  font-size: 24px;
+  color: #333;
+  background-color: #f9f9f9;
+}
