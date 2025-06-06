@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../services/api'; // <-- Импортируем наш клиент
 
 const Landing = ({ onLoginSuccess }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   
-  // Состояние для форм
-  const [activeTab, setActiveTab] = useState('login'); // 'login' или 'register'
+  const [activeTab, setActiveTab] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -16,25 +15,15 @@ const Landing = ({ onLoginSuccess }) => {
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Проверка авторизации при загрузке
-  useEffect(() => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        navigate('/dashboard');
-      }
-    } catch (error) {
-      console.error('Ошибка при проверке авторизации:', error);
-    }
-  }, [navigate]);
-
-  // Переключение языка
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    localStorage.setItem('language', lng);
+    try {
+        localStorage.setItem('language', lng);
+    } catch (e) {
+        console.error("Could not access localStorage", e);
+    }
   };
 
-  // Переключение между вкладками входа и регистрации
   const toggleTab = (tab) => {
     setActiveTab(tab);
     setEmail('');
@@ -43,115 +32,59 @@ const Landing = ({ onLoginSuccess }) => {
     setError('');
     setSuccess('');
   };
+  
+  // Общая функция для сохранения токена и обновления состояния
+  const handleAuthSuccess = (token) => {
+    try {
+        localStorage.setItem('token', token);
+    } catch (e) {
+        console.error("Could not access localStorage", e);
+        setError("Не удалось сохранить сессию. Проверьте настройки браузера.");
+        return;
+    }
+    onLoginSuccess(); // Обновляем состояние в App.jsx
+    navigate('/dashboard'); // Переходим в кабинет
+  };
 
-  // Обработчик входа
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
     
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/login', {
-        email,
-        password
-      });
-      
-      if (response.data && response.data.success) {
-        localStorage.setItem('token', response.data.token);
-        // Вызываем функцию обновления состояния аутентификации
-        if (onLoginSuccess) {
-          onLoginSuccess();
-        }
-        // Создаем событие об изменении localStorage
-        window.dispatchEvent(new Event('localStorageChange'));
-        setIsLoading(false);
-        navigate('/dashboard');
-      } else {
-        setIsLoading(false);
-        setError(t('landing.login.error'));
-      }
+      const response = await apiClient.post('/api/auth/login', { email, password });
+      handleAuthSuccess(response.data.token);
     } catch (err) {
-      setIsLoading(false);
-      // Используем серверное сообщение об ошибке, если оно есть
-      const errorMessage = err.response && err.response.data && err.response.data.message
-        ? err.response.data.message
-        : t('landing.login.error');
+      const errorMessage = err.response?.data?.message || t('login.error');
       setError(errorMessage);
-      console.error('Ошибка входа:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Обработчик регистрации
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
-    
-    // Проверка обязательных полей
-    if (!email || !password || !confirmPassword) {
-      setError(t('landing.register.fieldsRequired'));
-      setIsLoading(false);
-      return;
-    }
-    
-    // Проверка формата email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError(t('landing.register.invalidEmail'));
-      setIsLoading(false);
-      return;
-    }
-    
-    // Проверка длины пароля
-    if (password.length < 6) {
-      setError(t('landing.register.passwordTooShort'));
-      setIsLoading(false);
-      return;
-    }
-    
-    // Проверка совпадения паролей
+
     if (password !== confirmPassword) {
       setError(t('landing.register.passwordMismatch'));
-      setIsLoading(false);
       return;
     }
     
+    setIsLoading(true);
+    
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/register', {
-        email,
-        password
-      });
-      
-      if (response.data && response.data.success) {
-        setSuccess(t('landing.register.success'));
-        
-        // Сохраняем токен и обновляем состояние аутентификации
-        localStorage.setItem('token', response.data.token);
-        
-        // Вызываем функцию обновления состояния аутентификации
-        if (onLoginSuccess) {
-          onLoginSuccess();
-        }
-
-        // Создаем событие об изменении localStorage
-        window.dispatchEvent(new Event('localStorageChange'));
-        
-        setIsLoading(false);
-        
-        // Сразу перенаправляем на дашборд
-        navigate('/dashboard');
-      } else {
-        setIsLoading(false);
-        setError(t('landing.register.error'));
-      }
+      const response = await apiClient.post('/api/auth/register', { email, password });
+      setSuccess(t('landing.register.success'));
+      // После успешной регистрации сразу логиним пользователя
+      handleAuthSuccess(response.data.token);
     } catch (err) {
-      setIsLoading(false);
-      // Используем серверное сообщение об ошибке, если оно есть
-      const errorMessage = err.response && err.response.data && err.response.data.message
-        ? err.response.data.message
-        : t('landing.register.error');
+      const errorMessage = err.response?.data?.message || t('landing.register.error');
       setError(errorMessage);
-      console.error('Ошибка регистрации:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -205,9 +138,7 @@ const Landing = ({ onLoginSuccess }) => {
             {activeTab === 'login' ? (
               <form className="auth-form" onSubmit={handleLogin}>
                 <div className="form-group">
-                  <label htmlFor="email">{t('landing.login.email')}</label>
                   <input
-                    id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -217,9 +148,7 @@ const Landing = ({ onLoginSuccess }) => {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="password">{t('landing.login.password')}</label>
                   <input
-                    id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -233,15 +162,13 @@ const Landing = ({ onLoginSuccess }) => {
                   className="auth-button" 
                   disabled={isLoading}
                 >
-                  {isLoading ? t('landing.login.submit') : t('landing.login.submit')}
+                  {isLoading ? t('loading') : t('landing.login.submit')}
                 </button>
               </form>
             ) : (
               <form className="auth-form" onSubmit={handleRegister}>
                 <div className="form-group">
-                  <label htmlFor="register-email">{t('landing.register.email')}</label>
                   <input
-                    id="register-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -251,9 +178,7 @@ const Landing = ({ onLoginSuccess }) => {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="register-password">{t('landing.register.password')}</label>
                   <input
-                    id="register-password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -263,9 +188,7 @@ const Landing = ({ onLoginSuccess }) => {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="confirm-password">{t('landing.register.confirmPassword')}</label>
                   <input
-                    id="confirm-password"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -279,88 +202,15 @@ const Landing = ({ onLoginSuccess }) => {
                   className="auth-button" 
                   disabled={isLoading}
                 >
-                  {isLoading ? t('landing.register.submit') : t('landing.register.submit')}
+                  {isLoading ? t('loading') : t('landing.register.submit')}
                 </button>
               </form>
             )}
           </div>
         </div>
       </div>
-      
-      <div className="landing-section how-it-works">
-        <h2>{t('landing.howItWorks.title')}</h2>
-        <div className="steps-container">
-          <div className="step">
-            <div className="step-number">1</div>
-            <h3>{t('landing.howItWorks.step1.title')}</h3>
-            <p>{t('landing.howItWorks.step1.description')}</p>
-          </div>
-          <div className="step">
-            <div className="step-number">2</div>
-            <h3>{t('landing.howItWorks.step2.title')}</h3>
-            <p>{t('landing.howItWorks.step2.description')}</p>
-          </div>
-          <div className="step">
-            <div className="step-number">3</div>
-            <h3>{t('landing.howItWorks.step3.title')}</h3>
-            <p>{t('landing.howItWorks.step3.description')}</p>
-          </div>
-          <div className="step">
-            <div className="step-number">4</div>
-            <h3>{t('landing.howItWorks.step4.title')}</h3>
-            <p>{t('landing.howItWorks.step4.description')}</p>
-          </div>
-        </div>
-      </div>
-      
-      <div className="landing-section benefits">
-        <h2>{t('landing.benefits.title')}</h2>
-        <div className="benefits-container">
-          <div className="benefit">
-            <div className="benefit-icon">📱</div>
-            <h3>{t('landing.benefits.responsive.title')}</h3>
-            <p>{t('landing.benefits.responsive.description')}</p>
-          </div>
-          <div className="benefit">
-            <div className="benefit-icon">🔒</div>
-            <h3>{t('landing.benefits.secure.title')}</h3>
-            <p>{t('landing.benefits.secure.description')}</p>
-          </div>
-          <div className="benefit">
-            <div className="benefit-icon">🌍</div>
-            <h3>{t('landing.benefits.multilingual.title')}</h3>
-            <p>{t('landing.benefits.multilingual.description')}</p>
-          </div>
-          <div className="benefit">
-            <div className="benefit-icon">🚀</div>
-            <h3>{t('landing.benefits.performance.title')}</h3>
-            <p>{t('landing.benefits.performance.description')}</p>
-          </div>
-        </div>
-      </div>
-      
-      <footer className="landing-footer">
-        <div className="footer-content">
-          <div className="footer-logo">PokerCraft Analyzer</div>
-          <p className="footer-copyright">&copy; {new Date().getFullYear()} PokerCraft Analyzer. {t('landing.footer.copyright')}</p>
-        </div>
-        <div className="language-switcher">
-          <button 
-            className={`language-button ${i18n.language === 'en' ? 'active' : ''}`}
-            onClick={() => changeLanguage('en')}
-          >
-            EN
-          </button>
-          <button 
-            className={`language-button ${i18n.language === 'ru' ? 'active' : ''}`}
-            onClick={() => changeLanguage('ru')}
-          >
-            RU
-          </button>
-        </div>
-      </footer>
     </div>
   );
 };
 
-export default Landing; 
+export default Landing;

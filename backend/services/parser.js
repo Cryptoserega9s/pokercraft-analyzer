@@ -1,6 +1,7 @@
 // backend/services/parser.js
 const cheerio = require('cheerio');
 const crypto = require('crypto');
+const { zonedTimeToUtc, toDate } = require('date-fns-tz');
 
 // Таблица призов за место
 const prizeTable = {
@@ -126,23 +127,23 @@ function parseTournamentData(htmlContent) {
 
       // Формат даты для PostgreSQL
       const currentYear = new Date().getFullYear();
-      const formattedDate = `${currentYear}-${month}-${day.padStart(2, '0')}`;
-      const fullDateTime = `${formattedDate} ${time}`;
+      
+      // --- ЕДИНСТВЕННЫЙ ПРАВИЛЬНЫЙ СПОСОБ СОЗДАНИЯ ДАТЫ ---
+      const dateStringInUserTz = `${currentYear}-${month}-${day.padStart(2, '0')} ${time}`;
+      const dateObj = toDate(dateStringInUserTz, { timeZone: timezone });
       
       // Проверка валидности даты
-      const dateObj = new Date(fullDateTime);
       if (isNaN(dateObj.getTime())) {
-        const errorMsg = `Неверная дата: "${fullDateTime}"`;
+        const errorMsg = `Неверная дата: "${dateStringInUserTz}" в поясе ${timezone}`;
         console.warn(`❌ Строка ${i+1}: ${errorMsg}`);
         parsingErrors.push({
-          row: i+1,
-          type: 'INVALID_DATE',
-          message: errorMsg,
-          details: `Созданная дата "${fullDateTime}" недействительна`
+          row: i+1, type: 'INVALID_DATE', message: errorMsg,
+          details: `Созданная дата недействительна`
         });
         skippedTournaments++;
         return;
       }
+
 
       // Парсинг бай-ина
       const buyinTotal = parseFloat(buyinText.replace('$', '')) || 0;
@@ -232,12 +233,12 @@ function parseTournamentData(htmlContent) {
 
       // Генерация хэша для защиты от дубликатов
       const hash = crypto.createHash('sha1')
-        .update(`${fullDateTime}${buyinTotal}${finishPlace}${prizeTotal}${kills}`)
+        .update(`${fullDateTime}${dateStringInUserTz}${buyinTotal}${finishPlace}${prizeTotal}${kills}`)
         .digest('hex');
 
       tournaments.push({
         tournament_hash: hash,
-        start_time: fullDateTime,
+        start_time: dateObj.toISOString(),
         weekday: dateObj.getDay(), // 0=Воскресенье, 6=Суббота
         buyin_total: buyinTotal,
         buyin_prize_pool: buyinTotal * 0.5,

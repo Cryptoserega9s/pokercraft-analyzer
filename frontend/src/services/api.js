@@ -47,3 +47,12 @@ export const uploadFile = (file, onUploadProgress) => {
     onUploadProgress: onUploadProgress, // Передаем колбэк прогресса
   });
 };
+
+/**
+ * Получает статистику пользователя из конечной точки /api/data/stats.
+ * @returns {Promise<object>} - Промис, который разрешается в объект статистики.
+ */
+export const fetchStats = () => {
+  return apiClient.get('/api/data/stats');
+};
+export default apiClient;

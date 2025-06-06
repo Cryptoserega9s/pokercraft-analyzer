@@ -39,6 +39,9 @@ exports.uploadFile = async (req, res) => {
         message: 'Неверный формат файла. Пожалуйста, загрузите файл с расширением .html'
       });
     }
+    const userTimezone = req.body.timezone || 'UTC'; // 'UTC' как запасной вариант
+    console.log(`Получен часовой пояс от пользователя: ${userTimezone}`);
+
     
     console.log('Файл загружен:', htmlFile.name);
 
@@ -54,6 +57,7 @@ exports.uploadFile = async (req, res) => {
         message: 'Файл пуст или содержит недостаточно данных для обработки'
       });
     }
+    const parserResult = parseTournamentData(htmlContent, userTimezone);
     
     // Проверка на наличие ключевых маркеров в HTML
     if (!htmlContent.includes('<table') || !htmlContent.includes('cdk-table') || !htmlContent.includes('cdk-row')) {
@@ -65,7 +69,7 @@ exports.uploadFile = async (req, res) => {
     }
     
     console.log('Размер HTML контента:', htmlContent.length, 'символов');
-    const parserResult = parseTournamentData(htmlContent);
+    
     
     // Извлекаем данные из результата парсера
     const { tournaments, stats: parserStats, errors: parsingErrors } = parserResult;

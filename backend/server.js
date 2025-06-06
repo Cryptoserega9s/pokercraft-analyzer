@@ -8,6 +8,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const authRoutes = require('./routes/authRoutes');
 // Импортируем весь объект db из моделей, который должен содержать sequelize и все модели
 const db = require('./models');
+const dataRoutes = require('./routes/dataRoutes');
 const Tournament = db.Tournament; // Получаем модель Tournament
 const sequelize = db.sequelize; // Получаем объект sequelize для проверки подключения
 
@@ -182,6 +183,7 @@ app.get('/api/health', (req, res) => {
 // Подключение маршрутов
 app.use('/api/auth', authRoutes); // Маршруты для аутентификации
 app.use('/api/upload', uploadRoutes); // Маршруты для загрузки файлов
+app.use('/api/data', dataRoutes);
 
 // Функция для расчета статистики по турнирам
 const calculateStats = (tournaments) => {
@@ -201,45 +203,6 @@ const calculateStats = (tournaments) => {
   };
 };
 
-// Маршрут получения данных с фильтрами, защищенный аутентификацией
-app.get('/api/data', authMiddleware.authenticate, async (req, res) => {
-  // Извлекаем параметры фильтрации из запроса
-  const { buyin, place, start, end, day } = req.query;
-  let where = {}; // Объект для условий фильтрации Sequelize
-
-  // Применяем фильтры, если они присутствуют
-  if (buyin) {
-    where.buyin_total = parseFloat(buyin); // Фильтр по общему бай-ину
-  }
-  if (place) {
-    where.finish_place = parseInt(place);
-  }
-  if (start && end) {
-    // В Express 4 синтаксис немного отличается
-    where.start_time = {
-      [db.Sequelize.Op.gte]: start,
-      [db.Sequelize.Op.lte]: end
-    };
-  } else if (start) {
-    where.start_time = { [db.Sequelize.Op.gte]: start };
-  } else if (end) {
-    where.start_time = { [db.Sequelize.Op.lte]: end };
-  }
-  if (day) {
-    where.weekday = parseInt(day); // Фильтр по дню недели
-  }
-
-  try {
-    // Находим турниры в базе данных с учетом фильтров
-    const tournaments = await Tournament.findAll({ where });
-    // Отправляем данные турниров и рассчитанную статистику
-    res.json({ data: tournaments, stats: calculateStats(tournaments) });
-  } catch (error) {
-    // Обработка ошибок при получении данных
-    console.error('Ошибка получения данных:', error);
-    res.status(500).send('Ошибка сервера при получении данных');
-  }
-});
 
 // Функция проверки подключения к базе данных
 const testDatabaseConnection = async () => {
