@@ -3,6 +3,20 @@ const cheerio = require('cheerio');
 const crypto = require('crypto');
 const { zonedTimeToUtc, toDate } = require('date-fns-tz');
 
+function parseDurationToSeconds(durationStr) {
+    if (!durationStr || typeof durationStr !== 'string') {
+        return 0;
+    }
+    const parts = durationStr.split(':').map(part => parseInt(part, 10) || 0);
+    let seconds = 0;
+    if (parts.length === 3) { // ЧЧ:ММ:СС
+        seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+    } else if (parts.length === 2) { // ММ:СС
+        seconds = parts[0] * 60 + parts[1];
+    }
+    return seconds;
+}
+
 // Таблица призов за место
 const prizeTable = {
   // Формат: [бай-ин]: { [место]: приз }
@@ -48,7 +62,10 @@ const monthMap = {
 const dateRegex = /([A-Za-zа-яА-Я]+)\.? (\d+),? (\d{2}:\d{2})/;
 
 // Парсинг HTML-файла
-function parseTournamentData(htmlContent) {
+function parseTournamentData(htmlContent, timezone) {
+  if (!timezone) {
+    throw new Error('Часовой пояс (timezone) не был передан в парсер.');
+  }
   const $ = cheerio.load(htmlContent);
   const tournaments = [];
   const parsingErrors = [];
@@ -124,6 +141,8 @@ function parseTournamentData(htmlContent) {
         skippedTournaments++;
         return;
       }
+
+
 
       // Формат даты для PostgreSQL
       const currentYear = new Date().getFullYear();
@@ -231,9 +250,12 @@ function parseTournamentData(htmlContent) {
         killsNoMoney = kills;
       }
 
+      const durationStr = $(cells[6]).text().trim();
+      const durationInSeconds = parseDurationToSeconds(durationStr);
+
       // Генерация хэша для защиты от дубликатов
       const hash = crypto.createHash('sha1')
-        .update(`${fullDateTime}${dateStringInUserTz}${buyinTotal}${finishPlace}${prizeTotal}${kills}`)
+        .update(`${dateStringInUserTz}${buyinTotal}${finishPlace}${prizeTotal}${kills}`)
         .digest('hex');
 
       tournaments.push({
@@ -253,7 +275,8 @@ function parseTournamentData(htmlContent) {
         net_profit: netProfit,
         is_top_bounty: isTopBounty,
         kills_money: killsMoney,
-        kills_nomoney: killsNoMoney
+        kills_nomoney: killsNoMoney,
+        duration_seconds: durationInSeconds
       });
 
       parsedRowsCount++;

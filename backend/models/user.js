@@ -16,10 +16,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     role: {
+      // <<< НОВОЕ ПОЛЕ >>>
       type: DataTypes.STRING,
-      defaultValue: 'user'
+      defaultValue: 'user', // Значения: 'user' или 'admin'
+      allowNull: false
     }
   });
+
+  // <<< НОВЫЙ БЛОК ДЛЯ СВЯЗЕЙ >>>
+  User.associate = function(models) {
+    // Пользователь имеет много турниров
+    User.hasMany(models.Tournament, {
+      foreignKey: 'userId',
+      as: 'Tournaments' // Псевдоним для использования в запросах
+    });
+  };
 
   return User;
 };

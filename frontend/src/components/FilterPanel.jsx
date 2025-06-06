@@ -91,6 +91,18 @@ function FilterPanel({ filters, onFilterChange, onResetFilters }) {
                             <option value="no_itm">Не ITM</option>
                         </select>
                     </div>
+                    <div className="filter-item">
+                        <label htmlFor="timeRange">В последнее время</label>
+                        <select id="timeRange" name="timeRange" value={filters.timeRange} onChange={onFilterChange} className="filter-input">
+                             <option value="all">За все время</option>
+                             <option value="today">Сегодня</option>
+                             <option value="last3days">Последние три дня</option>
+                             <option value="lastWeek">Последняя неделя</option>
+                        </select>
+                    </div>
+                    
+
+
                     {/* Фильтр по дате */}
                     <div className="filter-item">
                         <label htmlFor="startDate">{t('dashboard.filters.startDate')}</label>

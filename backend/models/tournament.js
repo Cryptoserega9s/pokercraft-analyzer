@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Турнир принадлежит одному пользователю
+      Tournament.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user' // Псевдоним для использования в запросах
+      });
     }
   }
   Tournament.init({

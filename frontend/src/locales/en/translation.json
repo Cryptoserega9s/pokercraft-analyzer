@@ -1,14 +1,40 @@
 {
   "loading": "Loading...",
-  "login": {
-    "title": "Log In",
-    "email": "Email",
-    "password": "Password",
-    "submit": "Log In",
-    "error": "Invalid email or password"
-  },
   "landing": {
-    "subtitle": "Your personal assistant for analyzing poker tournaments.",
+    "mainTitle": "PokerCraft Analyzer",
+    "hero": {
+      "title": "Full analysis of the mystery battle Royale",
+      "subtitle": "Our analyzer helps you find hidden patterns in your game, optimize your strategy, and increase your profits.",
+      "cta_primary": "Learn More",
+      "cta_secondary": "Create Account"
+    },
+    "features": {
+      "title": "Everything You Need for In-Depth Analysis",
+      "feature1": {
+        "title": "Visualize Your Success",
+        "description": "Track your balance, ROI, and net profit with interactive and clear charts. Find your strengths and weaknesses."
+      },
+      "feature2": {
+        "title": "Analyze Your Income Distribution",
+        "description": "Find out which places bring you the main income. Understand whether it is worth fighting for the top 1 or it is more profitable to consistently get into prizes."
+      },
+      "feature3": {
+        "title": "Filter Data Like a Pro",
+        "description": "Search for tournaments by buy-ins, days of the week, time of day, and places taken. Find your most profitable game sessions."
+      }
+    },
+    "final_cta": {
+      "title": "Ready to Turn Data into Dollars?",
+      "subtitle": "Create a free account and start analyzing your game today.",
+      "cta": "Start Analyzing for Free"
+    },
+    "login": {
+      "title": "Log In",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log In",
+      "error": "Invalid email or password"
+    },
     "register": {
       "title": "Register",
       "email": "Your Email",
@@ -76,14 +102,14 @@
       "bounties": "Bounty Rewards"
     },
     "table": {
-        "name": "Name",
-        "date": "Date",
-        "buyin": "Buy-in",
-        "place": "Place",
-        "kills": "Kills",
-        "duration": "Duration",
-        "prize": "Prize",
-        "bounty": "Bounty"
+      "name": "Name",
+      "date": "Date",
+      "buyin": "Buy-in",
+      "place": "Place",
+      "kills": "Kills",
+      "duration": "Duration",
+      "prize": "Prize",
+      "bounty": "Bounty"
     }
   },
   "days": {

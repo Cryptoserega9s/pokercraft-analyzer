@@ -28,6 +28,7 @@ function useDebounce(value, delay) {
 const INITIAL_FILTERS = {
     buyin: '', 
     place: '', 
+    timeRange: 'all',
     startDate: '', 
     endDate: '', 
     dayOfWeek: '',
@@ -175,11 +176,54 @@ function Dashboard({ onLogout }) {
 
     // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
     
-    const handleFilterChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFilters(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-        // Не сбрасываем пагинацию здесь, это произойдет при вызове fetchData
-    };
+    // ЗАМЕНИТЕ СТАРУЮ ФУНКЦИЮ handleFilterChange НА ЭТУ:
+const handleFilterChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    // Специальная логика для нового фильтра "В последнее время"
+    if (name === 'timeRange') {
+        const today = new Date();
+        // Вспомогательная функция для форматирования даты в YYYY-MM-DD
+        const toISOFormat = (d) => d.toISOString().split('T')[0];
+        
+        let newStartDate = '';
+        let newEndDate = '';
+
+        if (value === 'all') {
+            // Если "За все время", то очищаем даты
+            newStartDate = '';
+            newEndDate = '';
+        } else {
+            newEndDate = toISOFormat(today); // Для всех опций конечная дата - сегодня
+            if (value === 'today') {
+                newStartDate = toISOFormat(today);
+            } else if (value === 'last3days') {
+                const startDate = new Date();
+                startDate.setDate(today.getDate() - 2); // сегодня, вчера, позавчера = 3 дня
+                newStartDate = toISOFormat(startDate);
+            } else if (value === 'lastWeek') {
+                const startDate = new Date();
+                startDate.setDate(today.getDate() - 6); // 7 дней, включая сегодняшний
+                newStartDate = toISOFormat(startDate);
+            }
+        }
+        
+        // Устанавливаем сразу три поля в состоянии
+        setFilters(prev => ({
+            ...prev,
+            timeRange: value,
+            startDate: newStartDate,
+            endDate: newEndDate,
+        }));
+
+    } else {
+        // Стандартное поведение для всех остальных фильтров
+        setFilters(prev => ({ 
+            ...prev, 
+            [name]: type === 'checkbox' ? checked : value 
+        }));
+    }
+};
     
     const resetFilters = () => {
         setFilters(INITIAL_FILTERS);

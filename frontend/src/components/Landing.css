@@ -1,100 +1,270 @@
-/* Landing.css */
-.landing-page {
-  font-family: 'Open Sans', sans-serif;
+/* ==========================================================================
+   ШРИФТЫ И ГЛОБАЛЬНЫЕ НАСТРОЙКИ
+   ========================================================================== */
+
+/* >> ИЗМЕНЕНИЕ: Импортируем новый, более читаемый шрифт Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+:root {
+  /* Цветовая схема (темная тема) */
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #f5f5f5;
+  --accent-color: #4C6EF5;
+  --border-color: #333;
+  --input-bg: #252525;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+}
+
+/* >> ИЗМЕНЕНИЕ: Уменьшаем базовый размер шрифта, чтобы всё пропорционально уменьшилось.
+   Теперь 1rem будет равен 15px вместо 16px. */
+html {
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   New Landing Page V2 Styles
+   ========================================================================== */
+
+.landing-page-v2 {
+  /* >> ИЗМЕНЕНИЕ: Применяем новый шрифт по умолчанию */
+  font-family: 'Inter', 'Open Sans', sans-serif;
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background-color: #0d0d0d;
 }
 
-/* Hero Section */
-.landing-hero {
+/* --- Header --- */
+.landing-header {
   display: flex;
-  min-height: 100vh;
-  padding: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 5%; /* >> ИЗМЕНЕНИЕ: Немного уменьшили паддинг */
+  background: rgba(13, 13, 13, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.landing-content {
-  flex: 1;
-  padding-right: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.landing-header .logo {
+  font-weight: bold;
+  font-size: 1.4rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
 }
 
-.landing-title {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, var(--accent-color), #5e60ce);
+/* --- Hero Section --- */
+.hero-section {
+  text-align: center;
+  padding: 60px 20px 50px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступы */
+  overflow: hidden;
+}
+
+.hero-section h1 {
+  /* >> ИЗМЕНЕНИЕ: Применяем новый шрифт и уменьшаем размер */
+  font-family: 'Inter', sans-serif;
+  font-weight: 800; /* Делаем его жирнее для акцента */
+  font-size: 3.2rem; /* Уменьшили с 3.5rem */
+  margin-bottom: 18px; /* Уменьшили отступ */
+  background: linear-gradient(90deg, var(--accent-color), #be4bdb 80%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-weight: 700;
+  line-height: 1.2;
 }
 
-.landing-subtitle {
-  font-size: 1.5rem;
-  margin-bottom: 40px;
-  opacity: 0.9;
-  line-height: 1.5;
+.hero-section .subtitle {
+  font-size: 1.1rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+  max-width: 600px;
+  margin: 0 auto 35px; /* Уменьшили отступ */
+  color: #a0a0a0;
+  line-height: 1.6;
 }
 
-.landing-features {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.feature-item {
-  background-color: rgba(30, 30, 30, 0.6);
-  border-radius: 12px;
-  padding: 25px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid var(--border-color);
-}
-
-.feature-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  border-color: var(--accent-color);
-}
-
-.feature-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.feature-item h3 {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
-  color: var(--accent-color);
-}
-
-.feature-item p {
-  opacity: 0.8;
-  line-height: 1.5;
-}
-
-/* Auth Container */
-.landing-auth {
-  width: 400px;
-  min-width: 400px;
+.cta-buttons {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  gap: 18px; /* >> ИЗМЕНЕНИЕ: Уменьшили гэп */
+  flex-wrap: wrap;
 }
 
-.auth-container {
+.cta-primary, .cta-secondary {
+  padding: 10px 22px; /* >> ИЗМЕНЕНИЕ: Уменьшили кнопки */
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 0.95rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+}
+
+.cta-primary {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(76, 110, 245, 0.4);
+}
+
+.cta-secondary {
+  background-color: transparent;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+.cta-secondary:hover {
+  background-color: #222;
+  border-color: #777;
+}
+
+.hero-image-container {
+  margin-top: 50px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступ */
+}
+
+.hero-image {
+  max-width: 90%;
+  width: 900px; /* >> ИЗМЕНЕНИЕ: Уменьшили изображение */
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  border: 1px solid #333;
+}
+
+/* --- Features Section --- */
+.features-container {
+  padding: 60px 5%; /* >> ИЗМЕНЕНИЕ: Уменьшили отступы */
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.4rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+  margin-bottom: 70px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступ */
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), #5e60ce);
+  border-radius: 3px;
+}
+
+.feature-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px; /* >> ИЗМЕНЕНИЕ: Уменьшили гэп */
+  align-items: center;
+  margin-bottom: 100px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступ */
+}
+
+.feature-section.reverse .feature-image {
+  order: 2;
+}
+
+.feature-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.feature-image img:hover {
+    transform: scale(1.03);
+}
+
+.feature-text h2 {
+  font-size: 2.1rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+  margin-bottom: 12px;
+}
+
+.feature-text p {
+  font-size: 1rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+  color: #a0a0a0;
+  line-height: 1.6;
+}
+
+/* --- Final Call to Action Section --- */
+.final-cta-section {
+    text-align: center;
+    background-color: var(--card-bg);
+    padding: 60px 20px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступы */
+    border-radius: 20px;
+    margin: 30px 5%;
+    border: 1px solid var(--border-color);
+}
+
+.final-cta-section h2 {
+    font-size: 2.4rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+    margin-bottom: 12px;
+}
+.final-cta-section p {
+    color: #a0a0a0;
+    margin-bottom: 25px; /* >> ИЗМЕНЕНИЕ: Уменьшили отступ */
+    font-size: 1.05rem;
+}
+
+.final-cta-section .cta-primary.large {
+    font-size: 1.1rem; /* >> ИЗМЕНЕНИЕ: Уменьшили шрифт */
+    padding: 12px 28px;
+    margin-top: 15px;
+}
+
+/* ==========================================================================
+   Authentication Modal Styles (без изменений, уже хорошие)
+   ========================================================================== */
+
+.auth-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.auth-card {
+.auth-card-modal {
   background-color: var(--card-bg);
   border-radius: 12px;
   padding: 30px;
   width: 100%;
+  max-width: 400px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    color: var(--text-color);
 }
 
 .auth-tabs {
@@ -131,17 +301,6 @@
   background-color: var(--accent-color);
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
 .auth-form input {
   width: 100%;
   padding: 12px 15px;
@@ -151,12 +310,17 @@
   color: var(--text-color);
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s;
+  box-sizing: border-box;
+}
+
+.auth-form .form-group {
+    margin-bottom: 20px;
 }
 
 .auth-form input:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(76, 110, 245, 0.25);
 }
 
 .auth-button {
@@ -182,24 +346,6 @@
   cursor: not-allowed;
 }
 
-.auth-links {
-  margin-top: 15px;
-  text-align: right;
-}
-
-.forgot-password {
-  color: var(--accent-color);
-  text-decoration: none;
-  font-size: 0.9rem;
-  opacity: 0.8;
-  transition: opacity 0.3s;
-}
-
-.forgot-password:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
-
 .error-message {
   background-color: rgba(220, 53, 69, 0.1);
   color: var(--error-color);
@@ -220,250 +366,67 @@
   text-align: center;
 }
 
-/* How It Works Section */
-.landing-section {
-  padding: 80px 40px;
-  text-align: center;
-}
 
-.landing-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 50px;
-  position: relative;
-  display: inline-block;
-}
+/* ==========================================================================
+   Language Switcher & Responsive Design
+   ========================================================================== */
 
-.landing-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-color), #5e60ce);
-  border-radius: 3px;
-}
-
-.how-it-works {
-  background-color: rgba(18, 18, 18, 0.6);
-}
-
-.steps-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-}
-
-.step {
-  flex: 1;
-  min-width: 250px;
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 30px;
-  position: relative;
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s;
-}
-
-.step:hover {
-  transform: translateY(-10px);
-}
-
-.step::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -15px;
-  width: 30px;
-  height: 30px;
-  border-top: 2px dashed var(--border-color);
-  border-right: 2px dashed var(--border-color);
-  transform: translateY(-50%) rotate(45deg);
-  z-index: 1;
-}
-
-.step:last-child::before {
-  display: none;
-}
-
-.step-number {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(90deg, var(--accent-color), #5e60ce);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-  font-weight: 700;
-  color: white;
-}
-
-.step h3 {
-  margin-bottom: 15px;
-  color: var(--accent-color);
-}
-
-.step p {
-  opacity: 0.8;
-  line-height: 1.5;
-}
-
-/* Benefits Section */
-.benefits {
-  background-color: var(--bg-color);
-}
-
-.benefits-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.benefit {
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid var(--border-color);
-}
-
-.benefit:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  border-color: var(--accent-color);
-}
-
-.benefit-icon {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.benefit h3 {
-  margin-bottom: 15px;
-  color: var(--accent-color);
-}
-
-.benefit p {
-  opacity: 0.8;
-  line-height: 1.5;
-}
-
-/* Footer */
-.landing-footer {
-  background-color: var(--card-bg);
-  padding: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--border-color);
-}
-
-.footer-logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, var(--accent-color), #5e60ce);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.footer-copyright {
-  opacity: 0.7;
-}
-
-.language-switcher {
-  display: flex;
-  gap: 10px;
-}
-
-.language-button {
-  background-color: var(--input-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  padding: 8px 12px;
-  border-radius: 4px;
+.language-switcher button {
+  background: transparent;
+  border: none;
+  color: #a0a0a0;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
 }
 
-.language-button.active {
-  background-color: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
+.language-switcher button:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Responsive Design */
+.language-switcher button.active {
+  color: #ffffff;
+  background-color: var(--accent-color, #4C6EF5);
+}
+
 @media (max-width: 1024px) {
-  .landing-hero {
-    flex-direction: column;
-    padding: 30px 20px;
+  html {
+    font-size: 14px; /* >> ИЗМЕНЕНИЕ: Еще немного уменьшаем базу на планшетах */
   }
-  
-  .landing-content {
-    padding-right: 0;
-    margin-bottom: 50px;
-  }
-  
-  .landing-title {
+  .hero-section h1, .final-cta-section h2 {
     font-size: 2.8rem;
   }
-  
-  .landing-auth {
-    width: 100%;
-    min-width: auto;
-  }
-  
-  .landing-features {
+  .feature-section {
     grid-template-columns: 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
   }
-  
-  .steps-container {
-    flex-direction: column;
+  .feature-section.reverse .feature-image {
+    order: 0;
   }
-  
-  .step::before {
-    display: none;
-  }
-  
-  .step {
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .landing-section {
-    padding: 60px 20px;
-  }
-  
-  .landing-section h2 {
-    font-size: 2rem;
-  }
-  
-  .landing-title {
-    font-size: 2.5rem;
-  }
-  
-  .landing-subtitle {
-    font-size: 1.2rem;
-  }
-  
-  .landing-footer {
-    flex-direction: column;
-    gap: 20px;
+  .feature-text {
     text-align: center;
   }
 }
 
-/* Animation */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+  .hero-section .subtitle {
+    font-size: 1rem;
+  }
+  .section-title, .final-cta-section h2 {
+    font-size: 2.2rem;
+  }
+  .feature-text h2 {
+    font-size: 2rem;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -475,11 +438,6 @@
   }
 }
 
-.landing-title, 
-.landing-subtitle, 
-.landing-features, 
-.auth-card, 
-.step, 
-.benefit {
-  animation: fadeIn 0.8s ease-out;
-} 
+.hero-section, .features-container, .final-cta-section {
+  animation: fadeIn 0.8s ease-out backwards;
+}
