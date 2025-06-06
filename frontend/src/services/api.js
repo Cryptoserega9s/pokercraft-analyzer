@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Создаем экземпляр Axios с базовым URL и таймаутом
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3001', // Базовый URL для всех API-запросов
+  baseURL: 'https://pokercraft-backend.onrender.com', // Базовый URL для всех API-запросов
   timeout: 10000, // Таймаут запроса в миллисекундах
 });
 
